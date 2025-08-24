@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Calculator</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #ffe6f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .calculator {
+            background: #fff;
+            padding: 30px 40px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+        h1 {
+            color: #c2185b;
+            margin-bottom: 20px;
+        }
+        input {
+            padding: 10px;
+            margin: 5px 0;
+            width: 80%;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            margin-top: 15px;
+            border: none;
+            background-color: #c2185b;
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #e91e63;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 24px;
+            color: #c2185b;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <h1>Love Calculator 💖</h1>
+        <input type="text" id="name1" placeholder="Ad 1">
+        <input type="text" id="name2" placeholder="Ad 2">
+        <br>
+        <button onclick="calculateLove()">Hesabla</button>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        // Xüsusi cütlüklər
+        const specialPairs = {
+            "Əli-Əzizə": 100,
+            "Ali-Ayşə": 95,
+            "John-Jane": 90
+        };
+
+        function calculateLove() {
+            const name1 = document.getElementById("name1").value.trim();
+            const name2 = document.getElementById("name2").value.trim();
+            
+            if (!name1 || !name2) {
+                document.getElementById("result").textContent = "Zəhmət olmasa hər iki adı daxil edin!";
+                return;
+            }
+
+            // Adları birləşdirərək yoxla
+            const pair1 = `${name1}-${name2}`;
+            const pair2 = `${name2}-${name1}`;
+
+            let lovePercent;
+            
+            if (specialPairs[pair1] !== undefined) {
+                lovePercent = specialPairs[pair1];
+            } else if (specialPairs[pair2] !== undefined) {
+                lovePercent = specialPairs[pair2];
+            } else {
+                // Alqoritmdən kənar, random 0-100%
+                lovePercent = Math.floor(Math.random() * 101);
+            }
+
+            document.getElementById("result").textContent = `${lovePercent}% 💖`;
+        }
+    </script>
+</body>
+</html>
