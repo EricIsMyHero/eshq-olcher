@@ -92,62 +92,66 @@
     </div>
 
     <script>
+        const hearts = ["💝","💖","❤️","🩷","🧡","💛","💚","💙","🩵","💜","🤍"];
         const specialPairs = {
-    "əli-əzizə": 100
-};
+            "əli-əzizə": 100
+        };
 
-function calculateLove() {
-    const name1 = document.getElementById("name1").value.trim();
-    const name2 = document.getElementById("name2").value.trim();
-    const resultEl = document.getElementById("result");
-    
-    if (!name1 || !name2) {
-        resultEl.textContent = "Zəhmət olmasa hər iki adı daxil edin!";
-        resultEl.classList.add("show");
-        return;
-    }
+        // səhifə yüklənəndə input dəyərlərini bərpa et
+        window.onload = function() {
+            document.getElementById("name1").value = localStorage.getItem("name1") || "";
+            document.getElementById("name2").value = localStorage.getItem("name2") || "";
+        };
 
-    // Adları yadda saxla
-    localStorage.setItem("name1", name1);
-    localStorage.setItem("name2", name2);
+        function calculateLove() {
+            const name1 = document.getElementById("name1").value.trim();
+            const name2 = document.getElementById("name2").value.trim();
+            const resultEl = document.getElementById("result");
 
-    const pair1 = `${name1}-${name2}`.toLowerCase();
-    const pair2 = `${name2}-${name1}`.toLowerCase();
-    let lovePercent;
+            if (!name1 || !name2) {
+                resultEl.textContent = "Zəhmət olmasa hər iki adı daxil edin!";
+                resultEl.classList.add("show");
+                return;
+            }
 
-    if (specialPairs[pair1] !== undefined) {
-        lovePercent = specialPairs[pair1];
-    } else if (specialPairs[pair2] !== undefined) {
-        lovePercent = specialPairs[pair2];
-    } else {
-        const combined = (name1 + name2).toLowerCase();
-        let sum = 0;
-        for (let i = 0; i < combined.length; i++) {
-            sum += combined.charCodeAt(i);
+            // Adları yadda saxla
+            localStorage.setItem("name1", name1);
+            localStorage.setItem("name2", name2);
+
+            const pair1 = `${name1}-${name2}`.toLowerCase();
+            const pair2 = `${name2}-${name1}`.toLowerCase();
+            let lovePercent;
+
+            if (specialPairs[pair1] !== undefined) {
+                lovePercent = specialPairs[pair1];
+            } else if (specialPairs[pair2] !== undefined) {
+                lovePercent = specialPairs[pair2];
+            } else {
+                const combined = (name1 + name2).toLowerCase();
+                let sum = 0;
+                for (let i = 0; i < combined.length; i++) {
+                    sum += combined.charCodeAt(i);
+                }
+                lovePercent = sum % 101;
+            }
+
+            // nəticəni göstər (animasiya ilə)
+            resultEl.textContent = `${lovePercent}% 💖`;
+            resultEl.classList.remove("show");
+            setTimeout(() => resultEl.classList.add("show"), 50);
+
+            // ürəkləri yarat (fərqli vaxtlarla)
+            for (let i = 0; i < 44; i++) {
+                const delay = i * (300 + Math.random() * 200);
+                setTimeout(() => createHeart(), delay);
+            }
         }
-        lovePercent = sum % 101;
-    }
 
-    // nəticəni göstər (animasiya ilə)
-    resultEl.textContent = `${lovePercent}% 💖`;
-    resultEl.classList.remove("show");
-    setTimeout(() => resultEl.classList.add("show"), 50);
-
-    // ürəkləri yarat
-    for (let i = 0; i < 44; i++) {
-        const delay = i * (300 + Math.random() * 200);
-        setTimeout(() => createHeart(), delay);
-    }
-}
-
-const hearts = ["💝","💖","❤️","🩷","🧡","💛","💚","💙","🩵","💜","🤍"];
-
-        
         function createHeart() {
             const heart = document.createElement("div");
             heart.classList.add("heart");
-            heart.style.left = Math.random() * window.innerWidth + "px";
-            heart.style.bottom = "0px"; // ekranın ən altından çıxır
+            heart.style.left = Math.random() * (window.innerWidth - 30) + "px";
+            heart.style.bottom = "0px";
             heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
             document.body.appendChild(heart);
 
