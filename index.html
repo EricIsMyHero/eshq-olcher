@@ -99,6 +99,14 @@
             "əli-əzizə": 100
         };
 
+        // Səhifə yüklənəndə inputları localStorage-dan doldur
+        window.onload = function() {
+            const savedName1 = localStorage.getItem("name1");
+            const savedName2 = localStorage.getItem("name2");
+            if (savedName1) document.getElementById("name1").value = savedName1;
+            if (savedName2) document.getElementById("name2").value = savedName2;
+        };
+
         function calculateLove() {
             const name1 = document.getElementById("name1").value.trim();
             const name2 = document.getElementById("name2").value.trim();
@@ -109,6 +117,10 @@
                 resultEl.classList.add("show");
                 return;
             }
+
+            // Adları yadda saxla
+            localStorage.setItem("name1", name1);
+            localStorage.setItem("name2", name2);
 
             const pair1 = `${name1}-${name2}`;
             const pair2 = `${name2}-${name1}`;
@@ -133,7 +145,7 @@
             resultEl.classList.remove("show");
             setTimeout(() => resultEl.classList.add("show"), 50);
 
-            // ürəkləri ekrana əlavə et
+            // ürəkləri ekrana əlavə et (44 dənə)
             for (let i = 0; i < 44; i++) {
                 createHeart();
             }
