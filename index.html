@@ -157,45 +157,53 @@
         };
 
         function calculateLove() {
-            const name1 = document.getElementById("name1").value.trim();
-            const name2 = document.getElementById("name2").value.trim();
-            const resultEl = document.getElementById("result");
+    const name1 = document.getElementById("name1").value.trim();
+    const name2 = document.getElementById("name2").value.trim();
+    const resultEl = document.getElementById("result");
 
-            if (!name1 || !name2) {
-                resultEl.textContent = "Zəhmət olmasa hər iki adı daxil edin!";
-                resultEl.classList.add("show");
-                return;
-            }
+    if (!name1 || !name2) {
+        resultEl.textContent = "Zəhmət olmasa hər iki adı daxil edin!";
+        resultEl.classList.add("show");
+        return;
+    }
 
-            localStorage.setItem("name1", name1);
-            localStorage.setItem("name2", name2);
+    localStorage.setItem("name1", name1);
+    localStorage.setItem("name2", name2);
 
-            const pair1 = `${name1}-${name2}`.toLowerCase();
-            const pair2 = `${name2}-${name1}`.toLowerCase();
-            let lovePercent;
+    const pair1 = `${name1}-${name2}`.toLowerCase();
+    const pair2 = `${name2}-${name1}`.toLowerCase();
+    let lovePercent;
 
-            if (specialPairs[pair1] !== undefined) {
-                lovePercent = specialPairs[pair1];
-            } else if (specialPairs[pair2] !== undefined) {
-                lovePercent = specialPairs[pair2];
-            } else {
-                const combined = (name1 + name2).toLowerCase();
-                let sum = 0;
-                for (let i = 0; i < combined.length; i++) {
-                    sum += combined.charCodeAt(i);
-                }
-                lovePercent = sum % 101;
-            }
-
-            resultEl.textContent = `${lovePercent}% 💖`;
-            resultEl.classList.remove("show");
-            setTimeout(() => resultEl.classList.add("show"), 50);
-
-            for (let i = 0; i < 44; i++) {
-                const delay = i * (100 + Math.random() * 200);
-                setTimeout(() => createHeart(), delay);
-            }
+    if (specialPairs[pair1] !== undefined) {
+        lovePercent = specialPairs[pair1];
+    } else if (specialPairs[pair2] !== undefined) {
+        lovePercent = specialPairs[pair2];
+    } else {
+        const combined = (name1 + name2).toLowerCase();
+        let sum = 0;
+        for (let i = 0; i < combined.length; i++) {
+            sum += combined.charCodeAt(i);
         }
+        lovePercent = sum % 101;
+    }
+
+    // Burada mesaj hissəsini əlavə edirik:
+    let message;
+    if (lovePercent > 80) message = "Tam uyğun cütlük! 😍";
+    else if (lovePercent > 50) message = "Gözəl uyğunluq var! ❤️";
+    else if (lovePercent > 30) message = "Bir az mehribançılıq lazım! 🙂";
+    else message = "Bəlkə də dost qalmaq daha yaxşıdır! 😅";
+
+    resultEl.textContent = `${lovePercent}% 💖 — ${message}`;
+    resultEl.classList.remove("show");
+    setTimeout(() => resultEl.classList.add("show"), 50);
+
+    for (let i = 0; i < 44; i++) {
+        const delay = i * (100 + Math.random() * 200);
+        setTimeout(() => createHeart(), delay);
+    }
+}
+
 
         function createHeart() {
             const heart = document.createElement("div");
