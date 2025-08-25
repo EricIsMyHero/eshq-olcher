@@ -9,6 +9,7 @@
             font-family: 'Segoe UI', sans-serif;
             background: linear-gradient(135deg, #ffdde1, #ee9ca7);
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
@@ -16,6 +17,12 @@
             overflow: hidden;
             position: relative;
             z-index: 1;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 2;
         }
         .calculator {
             background: rgba(255,255,255,0.9);
@@ -82,61 +89,61 @@
             }
         }
         footer {
-        margin-top: 80px;
-        padding: 20px;
-        background-color: #fff0f5;
-        color: #000;
-        text-align: center;
-        position: relative;
-        z-index: 1;
-        font-size: 16px;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: rgba(255,240,245,0.8);
+            color: #000;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            font-size: 16px;
         }
-
         footer a {
-        color: #f48fb1;
-        border-radius: 8px;
+            color: #f48fb1;
+            border-radius: 8px;
         }
         .share-button {
-        text-align: center;
-        margin-bottom: 30px;
+            text-align: center;
+            margin-top: 20px;
         }
-
         .share-button button {
-        padding: 10px 20px;
-        background-color: #c2185b;
-        color: white;
-        border: none;
-        border-radius: 10px;
-        font-size: 16px;
-        cursor: pointer;
-        transition: 0.3s;
-        position: relative;
-        z-index: 1;
+            padding: 10px 20px;
+            background-color: #c2185b;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+            position: relative;
+            z-index: 1;
         }
-
         .share-button button:hover {
-        background-color: #a01048;
+            background-color: #a01048;
         }
     </style>
 </head>
 <body>
-    <div class="calculator">
-        <h1>Love Calculator 💖</h1>
-        <input type="text" id="name1" placeholder="Ad 1">
-        <input type="text" id="name2" placeholder="Ad 2">
-        <br>
-        <button onclick="calculateLove()">Hesabla</button>
-        <div class="result" id="result"></div>
+    <div class="container">
+        <div class="calculator">
+            <h1>Love Calculator 💖</h1>
+            <input type="text" id="name1" placeholder="Ad 1">
+            <input type="text" id="name2" placeholder="Ad 2">
+            <br>
+            <button onclick="calculateLove()">Hesabla</button>
+            <div class="result" id="result"></div>
+        </div>
+        <div class="share-button">
+            <button onclick="shareSite()">💌 Saytı paylaş</button>
+        </div>
     </div>
- <div class="share-button">
-    <button onclick="shareSite()">💌 Saytı paylaş</button>
-  </div>
 
-  <footer>
-    © 2025 Sənin saytın 💖 |
-    <a href="https://ericismyhero.github.io/my-portfolio/">Əlaqə</a> |
-    <a href="mailto:ericismyhero2467@gmail.com">Təklif və İradlarınız üçün</a>
-  </footer>
+    <footer>
+        © 2025 Sənin saytın 💖 |
+        <a href="https://ericismyhero.github.io/my-portfolio/">Əlaqə</a> |
+        <a href="mailto:ericismyhero2467@gmail.com">Təklif və İradlarınız üçün</a>
+    </footer>
+
     <script>
         const hearts = ["💝","💖","❤️","🩷","🧡","💛","💚","💙","🩵","💜","🤍"];
         const specialPairs = {
@@ -144,7 +151,6 @@
             "tofiq-günel": 101
         };
 
-        // səhifə yüklənəndə input dəyərlərini bərpa et
         window.onload = function() {
             document.getElementById("name1").value = localStorage.getItem("name1") || "";
             document.getElementById("name2").value = localStorage.getItem("name2") || "";
@@ -161,7 +167,6 @@
                 return;
             }
 
-            // Adları yadda saxla
             localStorage.setItem("name1", name1);
             localStorage.setItem("name2", name2);
 
@@ -182,12 +187,10 @@
                 lovePercent = sum % 101;
             }
 
-            // nəticəni göstər (animasiya ilə)
             resultEl.textContent = `${lovePercent}% 💖`;
             resultEl.classList.remove("show");
             setTimeout(() => resultEl.classList.add("show"), 50);
 
-            // ürəkləri yarat (fərqli vaxtlarla)
             for (let i = 0; i < 44; i++) {
                 const delay = i * (300 + Math.random() * 200);
                 setTimeout(() => createHeart(), delay);
@@ -206,20 +209,20 @@
                 heart.remove();
             }, 1500);
         }
+
         function shareSite() {
-  const shareData = {
-    title: "💖Hər Gün Bir İltifat 💖",
-    text: "Nə yəni hər gün bir iltifat?🥺💘",
-    url: window.location.href
-  };
+            const shareData = {
+                title: "💖Hər Gün Bir İltifat 💖",
+                text: "Nə yəni hər gün bir iltifat?🥺💘",
+                url: window.location.href
+            };
 
-  if (navigator.share) {
-    navigator.share(shareData).catch((err) => console.log("Xəta:", err));
-  } else {
-    prompt("Linki kopyala və paylaş ✨", window.location.href);
-  }
-}
-
+            if (navigator.share) {
+                navigator.share(shareData).catch((err) => console.log("Xəta:", err));
+            } else {
+                prompt("Linki kopyala və paylaş ✨", window.location.href);
+            }
+        }
     </script>
 </body>
 </html>
