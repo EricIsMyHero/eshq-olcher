@@ -93,63 +93,52 @@
 
     <script>
         const specialPairs = {
-            "Əli-Əzizə": 100,
-            "əli-əzizə": 100
-        };
+    "əli-əzizə": 100
+};
 
-        const hearts = ["💝","💖","❤️","🩷","🧡","💛","💚","💙","🩵","💜","🤍"];
+function calculateLove() {
+    const name1 = document.getElementById("name1").value.trim();
+    const name2 = document.getElementById("name2").value.trim();
+    const resultEl = document.getElementById("result");
+    
+    if (!name1 || !name2) {
+        resultEl.textContent = "Zəhmət olmasa hər iki adı daxil edin!";
+        resultEl.classList.add("show");
+        return;
+    }
 
-        // Səhifə yüklənəndə inputları localStorage-dan doldur
-        window.onload = function() {
-            const savedName1 = localStorage.getItem("name1");
-            const savedName2 = localStorage.getItem("name2");
-            if (savedName1) document.getElementById("name1").value = savedName1;
-            if (savedName2) document.getElementById("name2").value = savedName2;
-        };
+    // Adları yadda saxla
+    localStorage.setItem("name1", name1);
+    localStorage.setItem("name2", name2);
 
-        function calculateLove() {
-            const name1 = document.getElementById("name1").value.trim();
-            const name2 = document.getElementById("name2").value.trim();
-            const resultEl = document.getElementById("result");
-            
-            if (!name1 || !name2) {
-                resultEl.textContent = "Zəhmət olmasa hər iki adı daxil edin!";
-                resultEl.classList.add("show");
-                return;
-            }
+    const pair1 = `${name1}-${name2}`.toLowerCase();
+    const pair2 = `${name2}-${name1}`.toLowerCase();
+    let lovePercent;
 
-            // Adları yadda saxla
-            localStorage.setItem("name1", name1);
-            localStorage.setItem("name2", name2);
-
-            const pair1 = `${name1}-${name2}`;
-            const pair2 = `${name2}-${name1}`;
-            let lovePercent;
-
-            if (specialPairs[pair1] !== undefined) {
-                lovePercent = specialPairs[pair1];
-            } else if (specialPairs[pair2] !== undefined) {
-                lovePercent = specialPairs[pair2];
-            } else {
-                // ALQORİTM: adların kod cəminə əsaslanır
-                const combined = (name1 + name2).toLowerCase();
-                let sum = 0;
-                for (let i = 0; i < combined.length; i++) {
-                    sum += combined.charCodeAt(i);
-                }
-                lovePercent = sum % 101;
-            }
-
-            // nəticəni göstər (animasiya ilə)
-            resultEl.textContent = `${lovePercent}% 💖`;
-            resultEl.classList.remove("show");
-            setTimeout(() => resultEl.classList.add("show"), 50);
-
-            // 44 ürək yarat
-            for (let i = 0; i < 44; i++) {
-                createHeart();
-            }
+    if (specialPairs[pair1] !== undefined) {
+        lovePercent = specialPairs[pair1];
+    } else if (specialPairs[pair2] !== undefined) {
+        lovePercent = specialPairs[pair2];
+    } else {
+        const combined = (name1 + name2).toLowerCase();
+        let sum = 0;
+        for (let i = 0; i < combined.length; i++) {
+            sum += combined.charCodeAt(i);
         }
+        lovePercent = sum % 101;
+    }
+
+    // nəticəni göstər (animasiya ilə)
+    resultEl.textContent = `${lovePercent}% 💖`;
+    resultEl.classList.remove("show");
+    setTimeout(() => resultEl.classList.add("show"), 50);
+
+    // ürəkləri yarat
+    for (let i = 0; i < 44; i++) {
+        const delay = i * (300 + Math.random() * 200);
+        setTimeout(() => createHeart(), delay);
+    }
+}
 
         function createHeart() {
             const heart = document.createElement("div");
