@@ -64,10 +64,10 @@
     </div>
 
     <script>
-        // Xüsusi cütlüklər
+        // Xüsusi cütlüklər (sabit nəticələr)
         const specialPairs = {
             "Əli-Əzizə": 100,
-            "Ali-Ayşə": 95,
+            "əli-əzizə": 95,
             "John-Jane": 90
         };
 
@@ -80,19 +80,22 @@
                 return;
             }
 
-            // Adları birləşdirərək yoxla
             const pair1 = `${name1}-${name2}`;
             const pair2 = `${name2}-${name1}`;
-
             let lovePercent;
-            
+
             if (specialPairs[pair1] !== undefined) {
                 lovePercent = specialPairs[pair1];
             } else if (specialPairs[pair2] !== undefined) {
                 lovePercent = specialPairs[pair2];
             } else {
-                // Alqoritmdən kənar, random 0-100%
-                lovePercent = Math.floor(Math.random() * 101);
+                // ALQORİTM: adların kod cəminə əsaslanır
+                const combined = (name1 + name2).toLowerCase();
+                let sum = 0;
+                for (let i = 0; i < combined.length; i++) {
+                    sum += combined.charCodeAt(i);
+                }
+                lovePercent = sum % 101; // 0-100 arasında sabit faiz
             }
 
             document.getElementById("result").textContent = `${lovePercent}% 💖`;
