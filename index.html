@@ -7,19 +7,22 @@
     <style>
         body {
             font-family: 'Segoe UI', sans-serif;
-            background: #ffe6f0;
+            background: linear-gradient(135deg, #ffdde1, #ee9ca7);
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
+            overflow: hidden;
         }
         .calculator {
-            background: #fff;
+            background: rgba(255,255,255,0.9);
             padding: 30px 40px;
             border-radius: 15px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
             text-align: center;
+            position: relative;
+            z-index: 2;
         }
         h1 {
             color: #c2185b;
@@ -42,14 +45,41 @@
             border-radius: 10px;
             cursor: pointer;
             font-size: 16px;
+            transition: background 0.3s;
         }
         button:hover {
             background-color: #e91e63;
         }
         .result {
             margin-top: 20px;
-            font-size: 24px;
+            font-size: 28px;
             color: #c2185b;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all 0.6s ease;
+        }
+        .result.show {
+            opacity: 1;
+            transform: scale(1);
+        }
+        /* Uçan ürəklər üçün stil */
+        .heart {
+            position: absolute;
+            color: #ff3d7f;
+            font-size: 20px;
+            animation: floatUp 3s linear forwards;
+            pointer-events: none;
+            z-index: 1;
+        }
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-200px) scale(1.5);
+                opacity: 0;
+            }
         }
     </style>
 </head>
@@ -64,7 +94,6 @@
     </div>
 
     <script>
-        // Xüsusi cütlüklər (sabit nəticələr)
         const specialPairs = {
             "Əli-Əzizə": 100,
             "əli-əzizə": 100
@@ -73,9 +102,11 @@
         function calculateLove() {
             const name1 = document.getElementById("name1").value.trim();
             const name2 = document.getElementById("name2").value.trim();
+            const resultEl = document.getElementById("result");
             
             if (!name1 || !name2) {
-                document.getElementById("result").textContent = "Zəhmət olmasa hər iki adı daxil edin!";
+                resultEl.textContent = "Zəhmət olmasa hər iki adı daxil edin!";
+                resultEl.classList.add("show");
                 return;
             }
 
@@ -94,10 +125,32 @@
                 for (let i = 0; i < combined.length; i++) {
                     sum += combined.charCodeAt(i);
                 }
-                lovePercent = sum % 101; // 0-100 arasında sabit faiz
+                lovePercent = sum % 101;
             }
 
-            document.getElementById("result").textContent = `${lovePercent}% 💖`;
+            // nəticəni göstər (animasiya ilə)
+            resultEl.textContent = `${lovePercent}% 💖`;
+            resultEl.classList.remove("show");
+            setTimeout(() => resultEl.classList.add("show"), 50);
+
+            // ürəkləri ekrana əlavə et
+            for (let i = 0; i < 5; i++) {
+                createHeart();
+            }
+        }
+
+        function createHeart() {
+            const heart = document.createElement("div");
+            heart.classList.add("heart");
+            heart.style.left = Math.random() * window.innerWidth + "px";
+            heart.style.top = (window.innerHeight - 50) + "px";
+            heart.style.fontSize = (Math.random() * 20 + 10) + "px";
+            heart.textContent = "❤";
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 3000);
         }
     </script>
 </body>
