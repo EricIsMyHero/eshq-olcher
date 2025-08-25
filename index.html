@@ -189,9 +189,10 @@
 
     // Burada mesaj hissəsini əlavə edirik:
     let message;
-    if (lovePercent > 80) message = "Tam ideal, uyğun cütlük";
-    else if (lovePercent > 50) message = "Gözəl uyğunluq var";
-    else if (lovePercent > 30) message = "Bir az daha sevmək olarmış";
+    if (lovePercent > 84) message = "Tam ideal, uyğun cütlük";
+    else if (lovePercent > 64) message = "Gözəl uyğunluq var";
+    else if (lovePercent > 44) message = "Eh, idarə edər";
+    else if (lovePercent > 24) message = "Bir az daha sevmək olarmış";
     else message = "Elə ən yaxşısı dost qalmaqdı";
 
     resultEl.textContent = `${lovePercent}% 💖 — ${message}`;
